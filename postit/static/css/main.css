@@ -217,3 +217,33 @@ body {
   justify-content: space-between;
 }
 
+.button--add {
+  display: flex;
+  height: 4rem;
+  width: 4rem;
+  border: var(--border);
+  border-radius: 50%;
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.75rem;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (min-width: 50em) {
+  .button--add {
+      right: 3rem;
+  }
+}
+
+@media screen and (min-width: 80em) {
+  .button--add {
+      right: 4rem;
+  }
+}
+
+.button--add:hover {
+  color: var(--text);
+  background-color: var(--accent-color);
+}

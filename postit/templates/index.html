@@ -11,14 +11,31 @@
           <ul class="post__heading">
             <li class="post__title">{{ post.title }}</li>
             <li class="post__account">
-              <a href="{{ url_for('pages.other_account', account=post.account) }}">{{ post.account }}</a>
+              {% if session["username"] == post.account %}
+              <a href="{{ url_for('pages.account') }}">{{ post.account }}</a>
+              {% else %}
+                <a href="{{ url_for('pages.other_account', account=post.account) }}">{{ post.account }}</a>
+              {% endif %}
+              
             </li>
           </ul>
             <div class="post__body">
                 <p>{{ post.body }}</p>
                 <div class="post__footer">
                   <span class="post__date">Date Posted: {{post.date}}</span>
-                  <span class="post__likes">Likes: {{ post.likes }}</span>
+                  <span class="post__likes">
+                    <a href="{{ url_for('pages.like_post', post_id=post._id) }}">Likes: {{ post.likes }}
+                      {% if session["username"] in post.liked_by %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#FF0000" d="M12 21.35l-1.45-1.32C5.4 15.03 2 12.3 2 8.75 2 5.42 4.42 3 7.75 3c1.93 0 3.69 1.13 4.75 2.75C15.56 4.13 17.32 3 19.25 3 22.58 3 25 5.42 25 8.75c0 3.55-3.4 6.28-8.55 11.28L12 21.35z"/>
+                      </svg>
+                      {% else %}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.03 2 12.3 2 8.75 2 5.42 4.42 3 7.75 3c1.93 0 3.69 1.13 4.75 2.75C15.56 4.13 17.32 3 19.25 3 22.58 3 25 5.42 25 8.75c0 3.55-3.4 6.28-8.55 11.28L12 21.35z"/>
+                      </svg>
+                      {% endif %}                    
+                    </a>                    
+                  </span>
                 </div>
               </div>
         </div>

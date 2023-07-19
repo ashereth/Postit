@@ -12,6 +12,7 @@ class Post:
     date: datetime = datetime.now
     #number of likes should always start as 0
     likes: int = 0
+    liked_by: list[str] = field(default_factory=list)
 
 @dataclass
 class Account:

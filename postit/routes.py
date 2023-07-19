@@ -95,6 +95,33 @@ def other_account(account):
         )
 
 
+
+#function for liking posts
+@pages.route("/like_post/<post_id>")
+def like_post(post_id):
+    #get the post data from database
+    post = current_app.db.posts.find_one({"_id": post_id})
+    #if the post exists
+    if post:
+        #if the post hasnt been liked by current user like it
+        if (session["username"] not in post["liked_by"]):
+            post["likes"] += 1
+            current_app.db.posts.update_one({"_id": post_id}, {"$set": {"likes": post["likes"]}})
+            current_app.db.posts.update_one(
+                {"_id": post_id}, 
+                {"$push": {"liked_by": session["username"]}})
+        #if post has been liked by current user unlike it
+        else:
+            post["likes"] -= 1
+            current_app.db.posts.update_one({"_id": post_id}, {"$set": {"likes": post["likes"]}})
+            current_app.db.posts.update_one(
+                {"_id": post_id}, 
+                {"$pull": {"liked_by": session["username"]}})
+    return redirect(url_for(".index"))
+    
+
+    
+
 """
 Below are routes for registering and logging in
 """

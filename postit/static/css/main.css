@@ -109,6 +109,7 @@ body {
   text-transform: uppercase;
   font-weight: 600;
   font-size: 20px;
+  padding-right: 2rem;
 }
 
 .nav-container {

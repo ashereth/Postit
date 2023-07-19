@@ -1,0 +1,2 @@
+Flask_APP=postit
+FLASK_ENV=development

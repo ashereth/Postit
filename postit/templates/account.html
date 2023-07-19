@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block head_content %}
+{% endblock %}
+
+{% block main_content %}
+    <h1 class="username">Your Account</h1>
+    <h2 class="posts"> Your Posts</h2>
+    {% for post in posts %}
+    <div class="post-container">
+        <div class="post">
+            <h2 class="post__title">{{ post.title }}</h2>
+            <div class="post__body">
+                <p>{{ post.body }}</p>
+                <div class="post__footer">
+                  <span class="post__date">Date Posted: {{post.date}}</span>
+                  <span class="post__likes">Likes: {{ post.likes }}</span>
+                </div>
+              </div>
+        </div>
+    </div>
+        
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block head_content %}
+{% endblock %}
+
+{% block main_content %}
+
+    {% for post in posts %}
+    <div class="post-container">
+        <div class="post">
+          <ul class="post__heading">
+            <li class="post__title">{{ post.title }}</li>
+            <li class="post__account">
+              <a href="{{ url_for('pages.other_account', account=post.account) }}">{{ post.account }}</a>
+            </li>
+          </ul>
+            <div class="post__body">
+                <p>{{ post.body }}</p>
+                <div class="post__footer">
+                  <span class="post__date">Date Posted: {{post.date}}</span>
+                  <span class="post__likes">Likes: {{ post.likes }}</span>
+                </div>
+              </div>
+        </div>
+    </div>
+        
+    {% endfor %}
+
+{% endblock %}

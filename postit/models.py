@@ -21,5 +21,5 @@ class Account:
     username: str
     password: str
     posts: list[str] = field(default_factory=list)
-    follower: int = 0
-    following: int = 0
+    follower: list[str] = field(default_factory=list)
+    following: list[str] = field(default_factory=list)

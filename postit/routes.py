@@ -80,6 +80,10 @@ def account():
 #route for looking at other people accounts
 @pages.route("/other_account/<string:account>")
 def other_account(account):
+    #get the current user
+    current_user_data = current_app.db.accounts.find_one({"username": session["username"]})
+    current_user = Account(**current_user_data)
+    #get the account that was clicked on
     account_data = current_app.db.accounts.find_one({"username": account})
     _account = Account(**account_data)
 
@@ -87,11 +91,13 @@ def other_account(account):
     post_data = current_app.db.posts.find({"_id": {"$in": _account.posts}})
     posts = [Post(**post) for post in post_data]
 
+    print(current_user)
     return render_template(
         "other_account.html",
         title="Account", 
         posts=posts,
-        username=_account.username
+        username=_account.username,
+        current_user=current_user
         )
 
 
@@ -120,7 +126,52 @@ def like_post(post_id):
     return redirect(url_for(".index"))
     
 
-    
+#follow an account
+@pages.route("/follow/<account>")
+def follow(account):
+    #get current user
+    current_user_data = current_app.db.accounts.find_one({"username": session["username"]})
+    current_user = Account(**current_user_data)
+    #get the account that was clicked on
+    account_data = current_app.db.accounts.find_one({"username": account})
+    _account = Account(**account_data)
+
+    #get all the posts from this account and make a list of them
+    post_data = current_app.db.posts.find({"_id": {"$in": _account.posts}})
+    posts = [Post(**post) for post in post_data]
+
+    current_app.db.accounts.update_one({"_id": current_user._id}, {"$push": {"following": _account.username}})
+    return redirect(url_for(".other_account", 
+                           title="Account", 
+                            posts=posts,
+                            account=_account.username,
+                            username=_account.username,
+                            current_user=current_user)
+                    )
+
+
+#unfollow an account
+@pages.route("/unfollow/<account>")
+def unfollow(account):
+    #get current user
+    current_user_data = current_app.db.accounts.find_one({"username": session["username"]})
+    current_user = Account(**current_user_data)
+    #get the account that was clicked on
+    account_data = current_app.db.accounts.find_one({"username": account})
+    _account = Account(**account_data)
+
+    #get all the posts from this account and make a list of them
+    post_data = current_app.db.posts.find({"_id": {"$in": _account.posts}})
+    posts = [Post(**post) for post in post_data]
+
+    current_app.db.accounts.update_one({"_id": current_user._id}, {"$pull": {"following": _account.username}})
+    return redirect(url_for(".other_account", 
+                           title="Account", 
+                            posts=posts,
+                            account=_account.username,
+                            username=_account.username,
+                            current_user=current_user)
+                    )
 
 """
 Below are routes for registering and logging in

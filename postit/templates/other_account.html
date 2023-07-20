@@ -4,7 +4,15 @@
 {% endblock %}
 
 {% block main_content %}
-    <h1 class="username">{{ username }}'s Account</h1>
+    <h1 class="username">{{ username }}'s Account:
+      {% if username in current_user.following %}
+      <a class="follow__button" href="{{ url_for('pages.unfollow', account=username) }}">Unfollow</a>
+      {% else %}
+        <a class="follow__button" href="{{ url_for('pages.follow', account=username) }}">Follow</a>
+      {% endif %}
+      
+    </h1>
+    <h2 class="posts">Followers = {{ 0 }}</h2>
     <h2 class="posts">{{ username }}'s Posts</h2>
     {% for post in posts %}
     <div class="post-container">

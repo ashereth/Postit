@@ -114,8 +114,7 @@ body {
 
 .nav-container {
   display: flex;
-  justify-content: space-between;
-
+  justify-content: center;
   /* limits the width of the navigation area to 1200px and centres it within the header */
   max-width: 75rem;
   margin: 0 auto;
@@ -123,7 +122,6 @@ body {
 
 .nav {
   display: flex;
-  justify-content: space-between;
 }
 
 .nav__link {
@@ -133,6 +131,18 @@ body {
   align-items: center;
   text-decoration: none;
   color: inherit;
+}
+
+/* Media query for smaller screens (adjust the breakpoint as needed) */
+@media screen and (max-width: 768px) {
+  .nav {
+    flex-wrap: wrap; /* Allows navigation items to wrap into multiple lines on smaller screens */
+    justify-content: center; /* Centers the items when they wrap */
+  }
+  
+  .nav__link {
+    margin: 5px; /* Adds some space between navigation items */
+  }
 }
 
 .nav__link--active {
@@ -247,4 +257,32 @@ body {
 .button--add:hover {
   color: var(--text);
   background-color: var(--accent-color);
+}
+
+.username {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  color: var(--accent-color-2);
+}
+
+.posts {
+  display: flex;
+  justify-content: center;
+  color: var(--accent-color-2);
+}
+
+.follow__button{
+  background-color: #c065f5;
+  text-decoration: none;
+  border-radius: .5rem;
+  margin-left: 2rem;
+  border: 1.5px solid #000;
+  color: #000;
+  font-weight: 200;
+  padding: 1px 3px 1px 1px;
+}
+
+.follow__button:hover {
+  background-color: #a553d4;
 }

@@ -73,7 +73,8 @@ def account():
         "account.html",
         title="Account", 
         posts=posts,
-        username=session["username"]
+        username=session["username"],
+        account=account
         )
 
 
@@ -97,7 +98,8 @@ def other_account(account):
         title="Account", 
         posts=posts,
         username=_account.username,
-        current_user=current_user
+        current_user=current_user,
+        _account=_account
         )
 
 
@@ -139,7 +141,7 @@ def follow(account):
     #get all the posts from this account and make a list of them
     post_data = current_app.db.posts.find({"_id": {"$in": _account.posts}})
     posts = [Post(**post) for post in post_data]
-
+    current_app.db.accounts.update_one({"_id": _account._id}, {"$push": {"follower": current_user.username}})
     current_app.db.accounts.update_one({"_id": current_user._id}, {"$push": {"following": _account.username}})
     return redirect(url_for(".other_account", 
                            title="Account", 
@@ -164,6 +166,7 @@ def unfollow(account):
     post_data = current_app.db.posts.find({"_id": {"$in": _account.posts}})
     posts = [Post(**post) for post in post_data]
 
+    current_app.db.accounts.update_one({"_id": _account._id}, {"$pull": {"follower": current_user.username}})
     current_app.db.accounts.update_one({"_id": current_user._id}, {"$pull": {"following": _account.username}})
     return redirect(url_for(".other_account", 
                            title="Account", 

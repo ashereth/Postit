@@ -141,7 +141,10 @@ def follow(account):
     #get all the posts from this account and make a list of them
     post_data = current_app.db.posts.find({"_id": {"$in": _account.posts}})
     posts = [Post(**post) for post in post_data]
+
+    # add current user to accounts followers
     current_app.db.accounts.update_one({"_id": _account._id}, {"$push": {"follower": current_user.username}})
+    # add account to current users list of account that they are following
     current_app.db.accounts.update_one({"_id": current_user._id}, {"$push": {"following": _account.username}})
     return redirect(url_for(".other_account", 
                            title="Account", 
@@ -166,7 +169,9 @@ def unfollow(account):
     post_data = current_app.db.posts.find({"_id": {"$in": _account.posts}})
     posts = [Post(**post) for post in post_data]
 
+    #remove current user from accounts followers
     current_app.db.accounts.update_one({"_id": _account._id}, {"$pull": {"follower": current_user.username}})
+    #remove account from current users list of accounts that they are following
     current_app.db.accounts.update_one({"_id": current_user._id}, {"$pull": {"following": _account.username}})
     return redirect(url_for(".other_account", 
                            title="Account", 
@@ -176,10 +181,12 @@ def unfollow(account):
                             current_user=current_user)
                     )
 
+
+
+
 """
 Below are routes for registering and logging in
 """
-
 #route for creating an account
 @pages.route("/register", methods=["POST", "GET"])
 def register():

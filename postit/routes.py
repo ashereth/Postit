@@ -253,7 +253,7 @@ def register():
         return redirect(url_for(".login"))
 
     return render_template(
-        "register.html", title="Movies Watchlist - Register", form=form
+        "register.html", title="Postit - Register", form=form
     )
 
 #route for logging in
@@ -285,7 +285,7 @@ def login():
 
         flash("Login credentials not correct", category="danger")
     #if account couldnt be verified return to login page
-    return render_template("login.html", title="Movies Watchlist - Login", form=form)
+    return render_template("login.html", title="Postit - Login", form=form)
 
 
 #logout route

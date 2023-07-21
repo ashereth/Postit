@@ -19,8 +19,20 @@ pages = Blueprint(
     "pages", __name__, template_folder="templates", static_folder="static"
 )
 
+def login_required(route):
+    @functools.wraps(route)
+    def route_wrapper(*args, **kwargs):
+        if session.get("email") is None:
+            return redirect(url_for(".login"))
+
+        return route(*args, **kwargs)
+
+    return route_wrapper
+
+
 #base explore page that shows all posts
 @pages.route("/")
+@login_required#user must be logged in to see this page
 def index():
     #get all the posts data from db 
     posts_data = current_app.db.posts.find({})
@@ -33,6 +45,7 @@ def index():
 
 
 @pages.route("/following")
+@login_required#user must be logged in to see this page
 def following():
     #get all the posts data from db 
     posts_data = current_app.db.posts.find({})
@@ -55,6 +68,7 @@ def following():
 
 #page to make a new post
 @pages.route("/add_post", methods=["GET", "POST"])
+@login_required#user must be logged in to see this page
 def add_post():
     #create the form for the post
     form = PostForm()
@@ -82,6 +96,7 @@ def add_post():
 
 #route to show users their account page
 @pages.route("/account")
+@login_required#user must be logged in to see this page
 def account():
     #get account data and make an account object with the data
     account_data = current_app.db.accounts.find_one({"email": session["email"]})
@@ -102,6 +117,7 @@ def account():
 
 #route for looking at other people accounts
 @pages.route("/other_account/<string:account>")
+@login_required#user must be logged in to see this page
 def other_account(account):
     #get the current user
     current_user_data = current_app.db.accounts.find_one({"username": session["username"]})
@@ -128,6 +144,7 @@ def other_account(account):
 
 #function for liking posts
 @pages.route("/like_post/<post_id>")
+@login_required#user must be logged in to see this page
 def like_post(post_id):
     #get the post data from database
     post = current_app.db.posts.find_one({"_id": post_id})
@@ -153,6 +170,7 @@ def like_post(post_id):
 
 #follow an account
 @pages.route("/follow/<account>")
+@login_required#user must be logged in to see this page
 def follow(account):
     #get current user
     current_user_data = current_app.db.accounts.find_one({"username": session["username"]})
@@ -180,6 +198,7 @@ def follow(account):
 
 #unfollow an account
 @pages.route("/unfollow/<account>")
+@login_required#user must be logged in to see this page
 def unfollow(account):
     #get current user
     current_user_data = current_app.db.accounts.find_one({"username": session["username"]})

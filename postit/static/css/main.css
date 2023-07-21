@@ -11,6 +11,11 @@
   --border: 3px solid #000;
 }
 
+.list__header {
+  display: flex;
+  justify-content: center;
+}
+
 .button {
   --background-color: #e2e8f0;
   --background-color-hover: #bdd1eb;
@@ -145,6 +150,17 @@ body {
   }
 }
 
+.nav__link--plus {
+  display: flex;
+  border: var(--border);
+  border-radius: 50%;
+  color: var(--text-dark);
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-color);
+}
+
 .nav__link--active {
   background: var(--accent-color);
   color: var(--text-light);
@@ -190,7 +206,7 @@ body {
 }
 
 .post {
-  border: 1px solid #ccc;
+  border: 1px solid var(--text-dark);
   padding: 10px;
   margin-bottom: 20px;
   width: 50%;
@@ -212,7 +228,7 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #888;
+  color: var(--text-light);
 }
 
 .post__date {
@@ -220,7 +236,11 @@ body {
 }
 
 .post__likes {
-  align-self: flex-end;
+  align-self: flex-end; 
+}
+
+.likes {
+  color: var(--text-light);
 }
 
 .post__heading {
@@ -229,6 +249,21 @@ body {
   list-style: none;
   justify-content: space-between;
 }
+
+.account--button {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: var(--accent-color-2);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.account--button:hover {
+  background-color: var(--accent-color);
+}
+
+
 
 .button--add {
   display: flex;

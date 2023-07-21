@@ -20,8 +20,8 @@
                 </a>
             {% else %}
             <a 
-            href="#"
-            class="nav__link "
+            href="{{ url_for('pages.following') }}"
+            class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.following') }}"
             >
                 <span class="nav__item">Following</span>
             </a>
@@ -32,7 +32,7 @@
                     <span class="nav__item">Explore</span>
                 </a>
                 <a href="{{ url_for('pages.add_post') }}" 
-                class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.add_post') }}">
+                class="nav__link {{ 'nav__link--plus' if request.path == url_for('pages.add_post') }}">
                 <span class="button button--add">+</span>
                 </a>
                 <a

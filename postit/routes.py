@@ -31,6 +31,28 @@ def index():
         title="Postit", posts=posts
     )
 
+
+@pages.route("/following")
+def following():
+    #get all the posts data from db 
+    posts_data = current_app.db.posts.find({})
+    #create a list of Post objects using the posts_data
+    posts = (Post(**post) for post in reversed(list(posts_data)))
+    #get current account data and make an object for it
+    account_data = current_app.db.accounts.find_one({"email": session["email"]})
+    account = Account(**account_data)
+    filtered_posts = []
+    #loop through posts and remove any post that aren't
+    #  made by someone that the current account is following
+    for post in posts:
+        if post.account in account.following:
+            filtered_posts.append(post)
+    return render_template(
+        "following.html",
+        title="Following", posts=filtered_posts
+    )
+
+
 #page to make a new post
 @pages.route("/add_post", methods=["GET", "POST"])
 def add_post():
@@ -125,7 +147,8 @@ def like_post(post_id):
             current_app.db.posts.update_one(
                 {"_id": post_id}, 
                 {"$pull": {"liked_by": session["username"]}})
-    return redirect(url_for(".index"))
+    #return user to whatever page called this function
+    return redirect(request.referrer)
     
 
 #follow an account
